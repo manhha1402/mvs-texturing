@@ -2,3 +2,48 @@ build/
 elibs/
 !elibs/CMakeLists/*
 !elibs/CMakeLists.txt
+.vscode/
+# generated docs
+*.dox
+*.wikidoc
+*.tar
+# eclipse
+.project
+.cproject
+# qcreator
+qtcreator-*
+*.user
+
+# Emacs
+.#*
+
+# VI/VIM
+*.swp
+
+# python files
+*.pyc
+*.pco
+
+# temporary files
+*~
+
+# merge conflict files
+*.orig
+*BACKUP*
+*BASE*
+*LOCAL*
+*REMOTE*
+
+# Catkin custom files
+CATKIN_IGNORE
+*.autosave
+.idea
+# bag and tar files
+*.bag
+*.tar
+# 3D files
+*.ply
+*.obj
+# kate files
+.kate-swp
+

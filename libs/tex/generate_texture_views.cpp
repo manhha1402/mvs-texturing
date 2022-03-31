@@ -22,7 +22,7 @@ TEX_NAMESPACE_BEGIN
 void
 from_mve_scene(std::string const & scene_dir, std::string const & image_name,
     std::vector<TextureView> * texture_views) {
-
+    std::cout<<"scene_dir: "<<scene_dir<<std::endl;
     mve::Scene::Ptr scene;
     try {
         scene = mve::Scene::create(scene_dir);
@@ -36,18 +36,21 @@ from_mve_scene(std::string const & scene_dir, std::string const & image_name,
     ProgressCounter view_counter("\tLoading", num_views);
     for (std::size_t i = 0; i < num_views; ++i) {
         view_counter.progress<SIMPLE>();
+        //std::cout<<image_name<<std::endl;
+        //std::cout<<i<<std::endl;
 
         mve::View::Ptr view = scene->get_view_by_id(i);
         if (view == NULL) {
             view_counter.inc();
             continue;
         }
-
         if (!view->has_image(image_name, mve::IMAGE_TYPE_UINT8)) {
             std::cout << "Warning: View " << view->get_name() << " has no byte image "
                 << image_name << std::endl;
             continue;
         }
+
+
 
         mve::View::ImageProxy const * image_proxy = view->get_image_proxy(image_name);
 
@@ -63,20 +66,69 @@ from_mve_scene(std::string const & scene_dir, std::string const & image_name,
         view_counter.inc();
     }
 }
+void generateTextureViews(std::string const & scene_dir,
+                          std::vector<TextureView>& texture_views)
+{
+  mve::Scene::Ptr scene;
+  try {
+      scene = mve::Scene::create(scene_dir);
+  } catch (std::exception& e) {
+      std::cerr << "Could not open scene: " << e.what() << std::endl;
+      std::exit(EXIT_FAILURE);
+  }
+  std::size_t num_views = scene->get_views().size();
+  std::cout<<"num_views: "<<num_views<<std::endl;
+  texture_views.reserve(num_views);
+  std::string image_name = "original";
+  ProgressCounter view_counter("\tLoading", num_views);
+
+  for (std::size_t i = 0; i < num_views; ++i) {
+
+    mve::View::Ptr view = scene->get_view_by_id(i);
+    if (view == NULL) {
+       view_counter.inc();
+       std::cout<<"NULL: "<<i<<std::endl;
+        continue;
+    }
+    if (!view->has_image(image_name, mve::IMAGE_TYPE_UINT8)) {
+        std::cout << "Warning: View " << view->get_name() << " has no byte image "
+            << image_name << std::endl;
+        continue;
+    }
+    mve::View::ImageProxy const * image_proxy = view->get_image_proxy(image_name);
+
+    if (image_proxy->channels < 3) {
+        std::cerr << "Image " << image_name << " of view " <<
+            view->get_name() << " is not a color image!" << std::endl;
+        exit(EXIT_FAILURE);
+    }
+    texture_views.push_back(
+        TextureView(view->get_id(), view->get_camera(), util::fs::abspath(
+        util::fs::join_path(view->get_directory(), image_proxy->filename))));
+    std::cout<<util::fs::abspath(util::fs::join_path(view->get_directory(), image_proxy->filename))<<std::endl;
+    view_counter.inc();
+  }
+}
+
 
 void
 from_images_and_camera_files(std::string const & path,
     std::vector<TextureView> * texture_views, std::string const & tmp_dir)
 {
+    std::cout<<"from_images_and_camera_files"<<std::endl;
     util::fs::Directory dir(path);
     std::sort(dir.begin(), dir.end());
     std::vector<std::string> files;
     for (std::size_t i = 0; i < dir.size(); ++i) {
         util::fs::File const & cam_file = dir[i];
+
         if (cam_file.is_dir) continue;
 
         std::string cam_file_ext = util::string::uppercase(util::string::right(cam_file.name, 4));
         if (cam_file_ext != ".CAM") continue;
+        //if (cam_file_ext != ".ini") continue;
+
+        std::cout<<"ok"<<std::endl;
 
         std::string prefix = util::string::left(cam_file.name, cam_file.name.size() - 4);
         if (prefix.empty()) continue;
@@ -96,10 +148,10 @@ from_images_and_camera_files(std::string const & path,
                 }
             }
             util::fs::File const & img_file = dir[j];
-
+            std::cout<<img_file.path<<std::endl;
             /* Image file (based on extension)? */
             std::string img_file_ext = util::string::uppercase(util::string::right(img_file.name, 4));
-            if (img_file_ext != ".PNG" && img_file_ext != ".JPG" &&
+            if (img_file_ext != ".png" && img_file_ext != ".JPG" &&
                 img_file_ext != "TIFF" && img_file_ext != "JPEG") continue;
 
             files.push_back(cam_file.get_absolute_name());
@@ -237,10 +289,15 @@ generate_texture_views(std::string const & in_scene,
 
     /* MVE_SCENE::EMBEDDING */
     size_t pos = in_scene.rfind("::");
+    std::cout<<"in_scene: "<<in_scene<<std::endl;
     if (pos != std::string::npos) {
         std::string scene_dir = in_scene.substr(0, pos);
         std::string image_name = in_scene.substr(pos + 2, in_scene.size());
-        from_mve_scene(scene_dir, image_name, texture_views);
+        std::cout<<"pos: "<<pos<<std::endl;
+
+        std::cout<<"image_name: "<<image_name<<std::endl;
+
+        from_mve_scene(scene_dir,image_name, texture_views);
     }
 
     std::sort(texture_views->begin(), texture_views->end(),
@@ -261,5 +318,6 @@ generate_texture_views(std::string const & in_scene,
         exit(EXIT_FAILURE);
     }
 }
+
 
 TEX_NAMESPACE_END

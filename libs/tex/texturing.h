@@ -117,6 +117,8 @@ void
 build_model(mve::TriangleMesh::ConstPtr mesh,
     TextureAtlases const & texture_atlas, Model * model);
 
+void generateTextureViews(std::string const & scene_dir,
+                          std::vector<TextureView>& texture_views);
 TEX_NAMESPACE_END
 
 #endif /* TEX_TEXTURING_HEADER */

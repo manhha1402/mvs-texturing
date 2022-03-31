@@ -42,7 +42,6 @@ int main(int argc, char **argv) {
     }
 
     std::string const out_dir = util::fs::dirname(conf.out_prefix);
-
     if (!util::fs::dir_exists(out_dir.c_str())) {
         std::cerr << "Destination directory does not exist!" << std::endl;
         std::exit(EXIT_FAILURE);

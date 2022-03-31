@@ -11,9 +11,8 @@
 
 #include <mve/image_color.h>
 #include <acc/bvh_tree.h>
-#include <Eigen/Core>
-#include <Eigen/LU>
-
+#include <eigen3/Eigen/Core>
+#include <eigen3/Eigen/LU>
 #include "util.h"
 #include "histogram.h"
 #include "texturing.h"
