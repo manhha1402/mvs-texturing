@@ -70,7 +70,6 @@ prepare_mesh(mve::MeshInfo * mesh_info, mve::TriangleMesh::Ptr mesh) {
     std::cout << "\tNum faces after mesh preparation: " << mesh->get_faces().size()/3 << " faces." << std::endl;
     std::cout << "\tNum vertices after mesh preparation: " << mesh->get_vertices().size() << " vertices." << std::endl;
 
-
 }
 
 TEX_NAMESPACE_END

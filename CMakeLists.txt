@@ -87,14 +87,6 @@ DEPENDS
 )
 
 
-
-
-
-
-
-
-
-
 add_subdirectory(elibs)
 include_directories(SYSTEM
     ${CMAKE_SOURCE_DIR}/elibs/rayint/libs
@@ -107,15 +99,6 @@ include_directories(SYSTEM
     ${OpenCV_INCLUDE_DIRS}
     ${catkin_INCLUDE_DIRS}
 )
-
-
-
-
-
-
-
-
-
 
 include_directories(
     libs

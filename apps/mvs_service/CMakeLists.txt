@@ -12,4 +12,3 @@ target_link_libraries(mvs_service tex
     ${OpenCV_LIBRARIES}
      ${catkin_LIBRARIES}
     )
-#install(TARGETS ${BIN} RUNTIME DESTINATION bin)

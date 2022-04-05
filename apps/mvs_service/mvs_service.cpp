@@ -11,7 +11,7 @@
 #include <mve/mesh_io_ply.h>
 #include <mve/image_tools.h>
 #include <mve/image_io.h>
-
+#include <mve/mesh.h>
 #include "tex/util.h"
 #include "tex/timer.h"
 #include "tex/debug.h"
@@ -146,18 +146,43 @@ int main(int argc, char **argv) {
   std::shared_ptr<MVSTexService> tex_map = std::make_shared<MVSTexService>(node);
   ROS_INFO("MVS service is ready, wait for client");
   ros::spin();
-  /*
+ /*
   std::string data_path = "/home/manhha/aibox_data/scan_data1/";
   std::string ply_file = data_path + "test_object.ply";
+  open3d::geometry::TriangleMesh o3d_mesh;
+
   mve::TriangleMesh::Ptr mesh;
   std::vector<tex::TextureView> texture_views;
   readData(data_path,texture_views);
   std::cout << "Load and prepare mesh: " << std::endl;
   std::string mesh_file = ply_file;
   mesh = mve::geom::load_ply_mesh(mesh_file);
-  std::size_t const num_faces = mesh->get_faces().size() / 3;
+  open3d::io::ReadTriangleMesh(ply_file,o3d_mesh);
+  //mesh.get_fa
+  auto faces = mesh->get_faces();
+  std::size_t face_amount = faces.size() / 3;
+  std::cout<<face_amount<<std::endl;
+
+
+  for (std::size_t i = 0, i3 = 0; i < o3d_mesh.triangles_.size(); ++i)
+  {
+    std::cout<<"///////"<<std::endl;
+     std::cout<<o3d_mesh.triangles_[i]<<std::endl;
+
+     for (std::size_t j = 0; j < 3; ++j, ++i3)
+      {
+            std::cout<<faces[i3]<<std::endl;
+          //  std::cout<<o3d_mesh.triangles_[i][i3]<<std::endl;
+         // std::cout<<o3d_mesh.triangles_[i][1]<<std::endl;
+         // std::cout<<o3d_mesh.triangles_[i][2]<<std::endl;
+}
+     }
+          //this->vertex_info[faces[i3]].faces.push_back(i);
+  //std::size_t const num_faces = mesh->get_faces().size() / 3;
   mve::MeshInfo mesh_info(mesh);
   tex::prepare_mesh(&mesh_info, mesh);
+
+
   std::cout << "Building adjacency graph: " << std::endl;
   tex::Graph graph(num_faces);
   tex::build_adjacency_graph(mesh, mesh_info, &graph);
