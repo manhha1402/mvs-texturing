@@ -25,6 +25,8 @@
 #include "math/vector.h"
 #include "math/matrix.h"
 #include "math/functions.h"
+#include <opencv2/opencv.hpp>
+#include <mve/image.h>
 
 /**
  * Converts an MVE matrix into an Eigen matrix.
@@ -158,4 +160,26 @@ get_jet_color(float value) {
     return math::Vec4f(red, green, blue, 1.0f);
 }
 
+inline void toCVMat1Chanels(const mve::ByteImage::Ptr& image, cv::Mat& cv_mat)
+{
+    cv_mat.create(image->height(),image->width(),CV_8UC1);
+
+  for(int x = 0; x < image->width(); x ++)
+    for(int y = 0 ; y < image->height() ; y ++)
+    {
+      cv_mat.at<uint8_t>(y,x) = image->at(x,y,0);
+    }
+}
+inline void toCVMat3Chanels(const mve::ByteImage::Ptr& image, cv::Mat& cv_mat)
+{
+    cv_mat.create(image->height(),image->width(),CV_8UC3);
+
+  for(int x = 0; x < image->width(); x ++)
+    for(int y = 0 ; y < image->height() ; y ++)
+    {
+      cv_mat.at<cv::Vec3b>(y,x)[2] = image->at(x,y,0);
+      cv_mat.at<cv::Vec3b>(y,x)[1] = image->at(x,y,1);
+      cv_mat.at<cv::Vec3b>(y,x)[0] = image->at(x,y,2);
+    }
+}
 #endif /* TEX_UTIL_HEADER */

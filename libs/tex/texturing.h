@@ -11,7 +11,7 @@
 #define TEX_TEXTURING_HEADER
 
 #include <vector>
-
+#include <open3d/Open3D.h>
 #include "mve/mesh.h"
 #include "mve/mesh_info.h"
 
@@ -67,7 +67,16 @@ void
 calculate_data_costs(mve::TriangleMesh::ConstPtr mesh,
     TextureViews * texture_views, Settings const & settings,
     DataCosts * data_costs);
+void
+calculate_face_projection_infos(mve::TriangleMesh::ConstPtr mesh,open3d::geometry::TriangleMesh& o3d_mesh,
+                                std::vector<TextureView> * texture_views, Settings const & settings,
+                                FaceProjectionInfos * face_projection_infos);
 
+
+void calculate_face_projection_infos_by_normal(mve::TriangleMesh::ConstPtr mesh,
+                                               open3d::geometry::TriangleMesh& o3d_mesh,
+                                     std::vector<TextureView> * texture_views, Settings const & settings,
+                                     FaceProjectionInfos * face_projection_infos);
 void
 postprocess_face_infos(Settings const & settings,
     FaceProjectionInfos * projected_face_infos,

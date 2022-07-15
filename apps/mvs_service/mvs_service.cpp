@@ -141,91 +141,13 @@ bool MVSTexService::doTextureMapping(vision_tools_msgs::TextureMappingRequest& r
 
 int main(int argc, char **argv) {
 
-  ros::init(argc, argv, "mvs_service_node");
-  ros::NodeHandle node;
-  std::shared_ptr<MVSTexService> tex_map = std::make_shared<MVSTexService>(node);
-  ROS_INFO("MVS service is ready, wait for client");
-  ros::spin();
- /*
-  std::string data_path = "/home/manhha/aibox_data/scan_data1/";
-  std::string ply_file = data_path + "test_object.ply";
-  open3d::geometry::TriangleMesh o3d_mesh;
+   ros::init(argc, argv, "mvs_service_node");
+   ros::NodeHandle node;
+   std::shared_ptr<MVSTexService> tex_map = std::make_shared<MVSTexService>(node);
+   ROS_INFO("MVS service is ready, wait for client");
+   ros::spin();
+ 
 
-  mve::TriangleMesh::Ptr mesh;
-  std::vector<tex::TextureView> texture_views;
-  readData(data_path,texture_views);
-  std::cout << "Load and prepare mesh: " << std::endl;
-  std::string mesh_file = ply_file;
-  mesh = mve::geom::load_ply_mesh(mesh_file);
-  open3d::io::ReadTriangleMesh(ply_file,o3d_mesh);
-  //mesh.get_fa
-  auto faces = mesh->get_faces();
-  std::size_t face_amount = faces.size() / 3;
-  std::cout<<face_amount<<std::endl;
-
-
-  for (std::size_t i = 0, i3 = 0; i < o3d_mesh.triangles_.size(); ++i)
-  {
-    std::cout<<"///////"<<std::endl;
-     std::cout<<o3d_mesh.triangles_[i]<<std::endl;
-
-     for (std::size_t j = 0; j < 3; ++j, ++i3)
-      {
-            std::cout<<faces[i3]<<std::endl;
-          //  std::cout<<o3d_mesh.triangles_[i][i3]<<std::endl;
-         // std::cout<<o3d_mesh.triangles_[i][1]<<std::endl;
-         // std::cout<<o3d_mesh.triangles_[i][2]<<std::endl;
-}
-     }
-          //this->vertex_info[faces[i3]].faces.push_back(i);
-  //std::size_t const num_faces = mesh->get_faces().size() / 3;
-  mve::MeshInfo mesh_info(mesh);
-  tex::prepare_mesh(&mesh_info, mesh);
-
-
-  std::cout << "Building adjacency graph: " << std::endl;
-  tex::Graph graph(num_faces);
-  tex::build_adjacency_graph(mesh, mesh_info, &graph);
-
-  std::cout << "View selection:" << std::endl;
-  util::WallTimer rwtimer;
-  Arguments conf;
-  conf.in_scene = data_path + "/texture/scene/";
-  conf.in_mesh = ply_file;
-  conf.out_prefix = "texture";
-  conf.data_cost_file = "";
-  conf.labeling_file = "";
-
-  conf.write_timings = false;
-  conf.write_intermediate_results = true;
-  conf.write_view_selection_model = false;
-
-  conf.num_threads = -1;
-
-  tex::DataCosts data_costs(num_faces, texture_views.size());
-
-  tex::calculate_data_costs(mesh, &texture_views, conf.settings, &data_costs);
-  tex::view_selection(data_costs, &graph, conf.settings);
-  tex::TextureAtlases texture_atlases;
-  tex::TexturePatches texture_patches;
-  tex::VertexProjectionInfos vertex_projection_infos;
-  std::cout << "Generating texture patches:" << std::endl;
-  tex::generate_texture_patches(graph, mesh, mesh_info, &texture_views,
-      conf.settings, &vertex_projection_infos, &texture_patches);
-  std::cout << "Running global seam leveling:" << std::endl;
-  tex::global_seam_leveling(graph, mesh, mesh_info, vertex_projection_infos, &texture_patches);
-  std::cout << "Running local seam leveling:" << std::endl;
-  tex::local_seam_leveling(graph, mesh, vertex_projection_infos, &texture_patches);
-  std::cout << "Generating texture atlases:" << std::endl;
-  tex::generate_texture_atlases(&texture_patches, conf.settings, &texture_atlases);
-  std::cout << "Building objmodel:" << std::endl;
-  tex::Model model;
-  tex::build_model(mesh, texture_atlases, &model);
-  std::cout << "\tSaving model... " << std::flush;
-  tex::Model::save(model, conf.out_prefix);
-  std::cout << "done." << std::endl;
-  return EXIT_SUCCESS;
-  */
 }
 
 

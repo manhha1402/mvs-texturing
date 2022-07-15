@@ -16,10 +16,9 @@
 #include <math/vector.h>
 #include <mve/camera.h>
 #include <mve/image.h>
-
+#include <Eigen/Eigen>
 #include "tri.h"
 #include "settings.h"
-
 TEX_NAMESPACE_BEGIN
 
 /** Struct containing the quality and mean color of a face within a view. */
@@ -37,13 +36,14 @@ struct FaceProjectionInfo {
   * Class representing a view with specialized functions for texturing.
   */
 class TextureView {
-    private:
+    public:
         std::size_t id;
 
         math::Vec3f pos;
         math::Vec3f viewdir;
         math::Matrix3f projection;
         math::Matrix4f world_to_cam;
+        Eigen::Matrix4d extrinsic_;
         int width;
         int height;
         std::string image_file;

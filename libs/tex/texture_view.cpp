@@ -37,6 +37,20 @@ TextureView::TextureView(std::size_t id, mve::CameraInfo const & camera,
     camera.fill_camera_pos(*pos);
     camera.fill_viewing_direction(*viewdir);
     camera.fill_world_to_cam(*world_to_cam);
+    extrinsic_.setIdentity();
+
+        extrinsic_(0,0)  = world_to_cam[0];
+        extrinsic_(0,1)  = world_to_cam[1];
+        extrinsic_(0,2)  = world_to_cam[2];
+        extrinsic_(0,3)  = world_to_cam[3];
+        extrinsic_(1,0)  = world_to_cam[4];
+        extrinsic_(1,1)  = world_to_cam[5];
+        extrinsic_(1,2)  = world_to_cam[6];
+        extrinsic_(1,3)  = world_to_cam[7];
+        extrinsic_(2,0)  = world_to_cam[8];
+        extrinsic_(2,1)  = world_to_cam[9];
+        extrinsic_(2,2)  = world_to_cam[10];
+        extrinsic_(2,3)  = world_to_cam[11];
 }
 
 void
