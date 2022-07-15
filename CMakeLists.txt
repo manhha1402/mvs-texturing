@@ -13,7 +13,7 @@ endif()
 set(catkin_RUN_PACKAGES
         roscpp
         roslib
-        vision_tools_msgs
+        neura_vision_tools_msgs
 )
 set(catkin_BUILD_PACKAGES
         ${catkin_RUN_PACKAGES}

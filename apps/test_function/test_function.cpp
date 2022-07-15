@@ -20,7 +20,7 @@
 #include "tex/progress_counter.h"
 #include <open3d/Open3D.h>
 #include <opencv2/opencv.hpp>
-#include "vision_tools_msgs/TextureMapping.h"
+#include "neura_vision_tools_msgs/TextureMapping.h"
 #include <ros/ros.h>
 #include <ros/package.h>
 #include "arguments.h"
